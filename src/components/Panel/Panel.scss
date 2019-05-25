@@ -1,0 +1,30 @@
+.m-panel {
+	$height:520px;
+	width:100%;
+	min-height:$height;
+	padding-top:40px;
+	padding-bottom:20px;
+	font-size:20px;
+	overflow:hidden;
+	.m-panel-title {
+		letter-spacing: 10px;
+	}
+	.m-panel-menu {
+		display: flex;
+		justify-content: center;
+		list-style: none;
+		letter-spacing: 5px;
+		& li {
+			flex-basis: 80px;
+			margin:0 6px;
+			font-size: 16px;
+			cursor: pointer;
+			&:hover {
+				color:#601ee6;
+			}
+		}
+	}
+}
+.grayBGC {
+	background-color:#b8b8b81a;
+}

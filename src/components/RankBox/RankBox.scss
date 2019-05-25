@@ -1,0 +1,39 @@
+.m-rankbox {
+	width: 250px;
+	height: 400px;
+	color: white;
+	background-color:pink;
+	.m-rankbox-title {
+		margin: 35px 0;
+		letter-spacing: 5px;
+		font-size: 26px;
+	}
+	.m-rankbox-songlist {
+		position: relative;
+		left: 50%;
+		transform: translate(-50%);
+		width: 200px;
+		padding-left: 20px;
+		list-style: none;
+		text-align: left;
+		font-size: 16px;
+		.m-rankbox-song {
+			position: relative;
+			margin: 15px 0 ;
+			.m-rankbox-number {
+				position: absolute;
+				left: -15px;
+				top: 0;
+			}
+			.m-rankbox-songName,.m-rankbox-artist {
+				a {
+					color: white;
+					&:hover {
+						color:#601ee6;
+					}
+				}
+			}
+		}
+		
+	}
+}
