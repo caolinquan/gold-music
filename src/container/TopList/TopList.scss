@@ -1,0 +1,22 @@
+.toplist-nav{
+	text-align: left;
+	border-right: 1px solid rgba(153, 153, 153, 0.2);
+	.toplist-nav-item{
+		$height:38px;
+		list-style: none;
+		display: block;
+		height: $height;
+		font-size: 15px;
+		padding-left: 30px;
+		line-height: $height;
+		cursor: pointer;
+		transition: all .3s ease;
+		&:hover,&.active{
+			background-color: #601ee6;
+			color: white;
+		}
+	}
+}
+.toplist{
+	text-align: center;
+}

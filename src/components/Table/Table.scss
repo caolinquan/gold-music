@@ -1,0 +1,25 @@
+.m-table{
+	.m-table-row{
+		text-align: left;
+		height: 80px;
+		&.middle{
+			height: 60px;
+		}
+		&:nth-child(odd){
+			background-color:rgba(0, 0, 0, 0.01);
+		}
+		.m-table-row-num{
+			font-size: 20px;
+			font-weight: 400;
+			text-align: center;
+		}
+		.btn-play,.btn-add,.btn-share{
+			margin-right: 10px;
+			cursor: pointer;
+			&:hover{
+				color: #601ee6;
+			}
+		}
+	}
+
+}

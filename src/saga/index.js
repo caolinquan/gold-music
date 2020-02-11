@@ -1,14 +1,12 @@
 import { call,put,takeLatest,delay } from 'redux-saga/effects';
-import { 
-	INIT,
-	initSuccess,
-} from '../store/actions';
-import {getInitData} from "../service";
-
+import { initSuccess} from '@/store/actionCreators';
+import ActionTypes from '@/store/actionTypes';
+import Api from "@/api";
+const { INIT } = ActionTypes;
 function * fetchInitData()
 {
-	var initData = yield getInitData();
-	yield put(initSuccess(initData));
+	var initData = yield Api.getInitData();
+	yield put(initSuccess(initData.data));
 }
 
 

@@ -1,24 +1,38 @@
-import React from "react";
+import React,{Component} from "react";
 import "./Panel.scss";
 
-const Panel = function(props){
-	const { title,menuList,bgc,onMenuClick,children } = props;
-	// console.log(props);
-	return (
-			<section className={`m-panel ${bgc==true? " grayBGC":""}`}>
-				<h1 className="m-panel-title">{title}</h1>
-				<ul className="m-panel-menu">
+class Panel extends Component{
+	state = {
+		activeIndex:0,
+	}
+	render(){
+		const { activeIndex } = this.state;
+		const { title,menuList,bgc,onMenuClick,children } = this.props;
+		return (
+				<section className={`m-panel ${bgc==true? " grayBGC":""}`}>
+					<h1 className="m-panel-title">{title}</h1>
+					<ul className="m-panel-menu">
+						{
+							menuList!=null && menuList.map((item,index)=>{
+								let isActive = index==activeIndex? "active":"";
+								return (
+									<li
+									className={isActive}
+									onClick={(e)=>{
+										this.setState({activeIndex:index});
+										onMenuClick(item.id);
+									}} 
+									key={item.id}>{ item.name }</li>
+								)
+							})
+						}
+					</ul>
 					{
-						menuList!=null && menuList.map((item)=>(
-							<li onClick={(e)=>onMenuClick(item.key)} key={item.key}>{ item.type }</li>
-						))
+						children
 					}
-				</ul>
-				{
-					children
-				}
-			</section>
-		)
+				</section>
+			)
+	}
 }
 
 export default Panel;

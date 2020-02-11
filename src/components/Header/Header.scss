@@ -2,7 +2,8 @@
 	$height:150px;
 	$navHeight:90px;
 	$subNavWidth:60px;
-	min-height:$height;
+	// min-height:$height;
+	background-color: #fff;
 	.m-head-nav {
 		position: relative;
 		margin: 0 225px;
@@ -16,7 +17,7 @@
 			text-align: center;
 			line-height:$navHeight;
 			font-style: italic;
-			color: #601ee6;
+			color: gold;
 		}
 		.nav-item {
 			float: left;
@@ -44,6 +45,9 @@
 		width:100%;
 		height: $subNavWidth;
 		background-color:white;
+		&.hide{
+			display: none;
+		}
 		.nav-item {
 			width: 80px;
 			height: $subNavWidth;

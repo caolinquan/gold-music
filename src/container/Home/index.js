@@ -1,96 +1,130 @@
 import React,{ Component } from 'react';
 import "./Home.scss";
+import axios from "axios";
 import { connect } from 'react-redux';
-import AppBox from '../../components/AppBox';
-import { addApp,fetchRequest } from '../store/actions';
-import Panel from "../../components/Panel";
-import Card from "../../components/Card";
-import RectBox from "../../components/RectBox";
-import RankBox from "../../components/RankBox";
+import AppBox from '@/components/AppBox';
+import Panel from "@/components/Panel";
+import Card from "@/components/Card";
+import RectBox from "@/components/RectBox";
+import RankBox from "@/components/RankBox";
 import {Carousel} from "antd";
-import { init } from "../../store/actions";
+import { init } from "@/store/actionCreators";
+
+const _tagRecommand = [
+		{id:8,name:"嘻哈"},
+		{id:9,name:"电子"},
+		{id:10,name:"古典"},
+		{id:11,name:"快乐"}
+	];
+const _tagNewSongs = [
+		{id:13,name:"内地"},
+		{id:14,name:"港台"},
+		{id:15,name:"欧美"},
+		{id:16,name:"日本"},
+		{id:17,name:"韩国"}
+	];
 
 class Home extends Component
 {
 	state = {
 		isInit:false,
-		recommandList:{},
-		newSongsList:{},
-		rankList:{},
-		recommandActivedList:[],
-		newSongsActivedList:[],
-		rankActivedList:[],
+		tagRecommand: _tagRecommand,
+		tagNewSongs: _tagNewSongs,
+		activedRecommandList:[],
+		activedNewSongsList:[],
+		activedTopList:[],
 	}
 	componentDidMount(){
 		this.props.init();
 	}
 	static getDerivedStateFromProps(nextProps,preState){
-		if(nextProps.panelData && !preState.isInit){
-			const  { panelRecommand,panelNewSongs,panelRankList } = nextProps.panelData;
+		if(nextProps.activedRecommandList && !preState.isInit){
+			const  { 
+					activedRecommandList,activedNewSongsList,activedTopList 
+				} = nextProps;
 			return {
 				...preState,
 				isInit:true,
-				recommandList:panelRecommand,
-				newSongsList:panelNewSongs,
-				rankList:panelRankList,
-				recommandActivedList:panelRecommand.menuList[0].list,
-				newSongsActivedList:panelNewSongs.menuList[0].list,
-				rankActivedList:panelRankList.list,
+				activedRecommandList,
+				activedNewSongsList,
+				activedTopList,
 			}
 		}
 		return null;
 	}
-	handleRecommandClick=(typeKey)=>{
-		const  { menuList } = this.state.recommandList;
-		var result = menuList.find(item => item["key"] == typeKey).list;
-		result && this.setState({recommandActivedList:result});
+	handleRecommandClick=(typeId)=>{
+		axios.get('/localhost:8080/query/recommend/'+typeId)
+		.then((res)=>{
+			this.setState({activedRecommandList:[]})
+		})
+		.catch(error=>{
+			this.setState({activedRecommandList:[]})
+		})
 	}
-	handleNewSongsListClick=(typeKey)=>{
-		const  { menuList } = this.state.newSongsList;
-		var result = menuList.find(item => item["key"] == typeKey).list;
-		result && this.setState({newSongsActivedList:result});
+	handleNewSongsListClick=(typeId)=>{
+		axios.get('/localhost:8080/query/newsongs/'+typeId)
+		.then((res)=>{
+			this.setState({activedNewSongsList:[]})
+		})
+		.catch(error=>{
+			this.setState({activedNewSongsList:[]})
+		})
 	}
-	handleRankListClick=(typeKey)=>{
-		const  { list } = this.state.rankList;
-		var result = list.find(item => item["key"] == typeKey).list;
-		result && this.setState({rankActivedList:result});
-	}
+
 	render()
 	{
 		const { 
-				recommandList,newSongsList,rankList,
-				recommandActivedList,newSongsActivedList,rankActivedList,
+				tagRecommand,tagNewSongs,
+				activedRecommandList,activedNewSongsList,activedTopList
 			} = this.state;
 		return(
 			<div className="home">
-				<Carousel effect="fade" autoplay>
-					<div className="banner">1</div>
-					<div className="banner">2</div>
-					<div className="banner">3</div>
+				<Carousel className="carousel" effect="fade" autoplay>
+					<div className="banner"><img src={require("@/images/banner-1.jpg")} alt=""/></div>
+					<div className="banner"><img src={require("@/images/banner-2.jpg")} alt=""/></div>
+					<div className="banner"><img src={require("@/images/banner-3.jpg")} alt=""/></div>
 				</Carousel>
-				<Panel {...recommandList} bgc onMenuClick={this.handleRecommandClick}>
+				<Panel title="歌单推荐" menuList={tagRecommand} bgc onMenuClick={this.handleRecommandClick}>
 					<div className="card-wrap">
 						{
-							recommandActivedList.map((item)=>(
-								<Card className="m-card" {...item}></Card>
+							activedRecommandList.map((item)=>(
+								<Card 
+								key={item.id} 
+								className="m-card"
+								url={"/playlistdetail/"+item.id} 
+								title={item.title}
+								description={item.viewcounts}
+								imgUrl={item.imgUrl}>
+								</Card>
 							))
 						}
 					</div>
 				</Panel>
-				<Panel {...newSongsList} onMenuClick={this.handleNewSongsListClick}>
+				<Panel title="新歌首发" menuList={tagNewSongs} onMenuClick={this.handleNewSongsListClick}>
 					<div className="rectbox-wrap">
 						{
-							newSongsActivedList.map((item)=>(
-								<RectBox className="m-rectbox" {...item}></RectBox>
+							activedNewSongsList.map((item)=>(
+								<RectBox 
+								key={item.id} 
+								className="m-rectbox"
+								url={"/songDetail/"+item.id}
+								title={item.name}
+								description={item.artist}
+								imgUrl={item.imgUrl}>
+								</RectBox>
 							))
 						}
 					</div>
 				</Panel>
-				<Panel {...rankList} bgc>
+				<Panel title="排行榜"  bgc>
 					<div className="rectbox-wrap">
 						{
-							rankActivedList.map((item)=>(
-								<RankBox {...item}></RankBox>
+							activedTopList.map((item)=>(
+								<RankBox 
+								key={item.id} 
+								title={item.title}
+								list={item.list}>
+								</RankBox>
 							))
 						}
 					</div>
@@ -100,11 +134,14 @@ class Home extends Component
 	}
 }
 
-const mapStateToProps = state =>{
-	return { 
-		swiper:state.home.swiper || [],
-		panelData:state.home.panelData || null,
-	}
+const mapStateToProps = ({home}) =>{
+	console.log('state.home',home);
+	return {
+		carousel: home.carousel || null,
+		activedRecommandList:home.activedRecommandList || null,
+		activedNewSongsList:home.activedNewSongsList || null,
+		activedTopList:home.activedTopList || null,
+	};
 }
 const mapDispatchToProps = {
 	init,

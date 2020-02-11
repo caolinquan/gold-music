@@ -1,0 +1,33 @@
+.container-singerlist{
+	min-height: 70vh;
+	margin: 0 215px;
+	.singerlist-tag{
+		width: 100%;
+		min-height: 100px;
+		margin-top: 15px;
+		.singerlist-tag-item{
+			display: flex;
+			height: 32px;
+			padding: 6px 0px;
+			li{
+				min-width: 18px;
+				margin: 0 10px; 
+				display: inline-block;
+				cursor: pointer;
+				border-radius: 2px;
+				transition: all .3s ease;
+				&:hover,&.active{
+					color: white;
+					background-color: #601ee6;
+				}
+			}
+		}
+	}
+	.singerlist-content{
+		margin-top: 40px;
+		overflow: hidden;
+		display: flex;
+		justify-content: space-around;
+		flex-wrap: wrap;
+	}
+}
