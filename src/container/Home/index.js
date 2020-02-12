@@ -9,6 +9,7 @@ import RectBox from "@/components/RectBox";
 import RankBox from "@/components/RankBox";
 import {Carousel} from "antd";
 import { init } from "@/store/actionCreators";
+import Api from "@/api";
 
 const _tagRecommand = [
 		{id:8,name:"嘻哈"},
@@ -52,23 +53,13 @@ class Home extends Component
 		}
 		return null;
 	}
-	handleRecommandClick=(typeId)=>{
-		axios.get('/localhost:8080/query/recommend/'+typeId)
-		.then((res)=>{
-			this.setState({activedRecommandList:[]})
-		})
-		.catch(error=>{
-			this.setState({activedRecommandList:[]})
-		})
+	handleRecommandClick= async (typeId)=>{
+		let res = await Api.get("/home/playlist/"+typeId);
+		this.setState({activedRecommandList:[...res.data]})
 	}
-	handleNewSongsListClick=(typeId)=>{
-		axios.get('/localhost:8080/query/newsongs/'+typeId)
-		.then((res)=>{
-			this.setState({activedNewSongsList:[]})
-		})
-		.catch(error=>{
-			this.setState({activedNewSongsList:[]})
-		})
+	handleNewSongsListClick= async (typeId)=>{
+		let res = await Api.get("/home/newsongs/"+typeId);
+		this.setState({activedNewSongsList:[...res.data]})
 	}
 
 	render()
@@ -93,7 +84,7 @@ class Home extends Component
 								className="m-card"
 								url={"/playlistdetail/"+item.id} 
 								title={item.title}
-								description={item.viewcounts}
+								description={item.viewcount}
 								imgUrl={item.imgUrl}>
 								</Card>
 							))

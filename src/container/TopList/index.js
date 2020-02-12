@@ -9,8 +9,8 @@ import Api from "@/api";
 import {fakeTopListData} from "@/api/fakeData";
 
 const sideNav = [
-	{id:1,title:"流行指数榜"},{id:2,title:"热歌榜"},{id:3,title:"新歌榜"},{id:4,title:"MV榜"},
-	{id:5,title:"内地榜"},{id:6,title:"欧美榜"},{id:7,title:"韩国榜"},{id:8,title:"日本榜"},
+	{id:1,title:"流行指数榜"},{id:2,title:"热歌榜"},{id:3,title:"新歌榜"},{id:13,title:"内地榜"},
+	{id:14,title:"港台榜"},{id:15,title:"欧美榜"},{id:16,title:"日本榜"},{id:17,title:"韩国榜"},
 ]
 
 const { Sider,Content } = Layout; 
@@ -23,16 +23,19 @@ class TopList extends Component{
 		selectedTop:"",
 
 	}
-	componentDidMount(){
-		this.setState({ ...fakeTopListData });
+	async componentDidMount(){
+		const {id} = this.state.nav[0];
+		let res = await Api.get("/toplist/"+id);
+		this.setState({list:[...res.data]});
 	}
-	getData=(index)=>{
+	onChangeNav= async (index)=>{
 		const {id,title} = this.state.nav[index];
 		this.setState({
 			activeNavIndex:index,
 			selectedTop:title,
-			// list:list,
 		});
+		let res = await Api.get("/toplist/"+id);
+		this.setState({list:[...res.data]});
 	}
 	onPlay=(index)=>{
 		this.props.addMusic(this.state.list[index]);
@@ -56,7 +59,7 @@ class TopList extends Component{
 												<li 
 												key={item.id} 
 												className={"toplist-nav-item"+isActive}
-												onClick={e=>this.getData(index)}
+												onClick={e=>this.onChangeNav(index)}
 												>{item.title}</li>
 											)
 										})

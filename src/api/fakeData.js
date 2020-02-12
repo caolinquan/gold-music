@@ -117,12 +117,7 @@ export const fakePlayListData = {
 
 //  /singerlist 歌手列表的假数据
 export const fakeSingerListData = {
-	taglist:[
-		[
-			{id:-100,name:"热门"},{id:-1,name:"A"},{id:-2,name:"B"},{id:-3,name:"C"},{id:-4,name:"D"},{id:-5,name:"E"},{id:-6,name:"F"},{id:-7,name:"G"},{id:-8,name:"H"},{id:-9,name:"I"},
-			{id:-10,name:"J"},{id:-11,name:"K"},{id:12,name:"L"},{id:12,name:"M"},{id:12,name:"N"},{id:12,name:"O"},{id:12,name:"Q"},{id:12,name:"R"},{id:12,name:"S"},{id:12,name:"T"},
-			{id:34,name:"U"},{id:34,name:"V"},{id:34,name:"W"},{id:34,name:"X"},{id:34,name:"Y"},{id:34,name:"Z"},
-		],
+	taglist:[	
 		[
 			{id:-101,name:"全部"},{id:56,name:"内地"},{id:56,name:"港台"},{id:56,name:"欧美"},{id:56,name:"日本"},{id:56,name:"韩国"},{id:46,name:"其他"},
 		],

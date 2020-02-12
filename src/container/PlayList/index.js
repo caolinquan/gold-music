@@ -3,6 +3,8 @@ import "./PlayList.scss";
 import { NavLink } from "react-router-dom";
 import { Radio,Card,Empty } from "antd";
 import { fakePlayListData } from "@/api/fakeData";
+import Api from "@/api";
+
 const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
 const { Meta } = Card;
@@ -13,16 +15,20 @@ class PlayList extends Component{
 		selectedTag:"全部歌单",
 		displayList:[]
 	}
-	componentDidMount(){
-		const { typelist,list } =fakePlayListData;
-        window.scrollTo(0,0)
-        this.setState({typelist:[...typelist], displayList:[...list]});
+	async componentDidMount(){
+		const { data } = await Api.get("/playlist/");
+        window.scrollTo(0,0);
+        this.setState({typelist:[...data.typelist], displayList:[...data.list]});
+        // const { typelist, list} = fakePlayListData;
+        // this.setState({typelist:[...typelist], displayList:[...list]});
     }
-	onChangeTag=(tagId,tagName,e)=>{
+	onChangeTag= async (tagId,tagName,e)=>{
 		// let newData = this.state.list[type]||[];
 		// console.log('newData: ',newData);
 		// console.log({selectedType:type,activeIndex,displayList:newData});
 		this.setState({selectedTag:tagName});
+		let { data } = await Api.get("/playlist/"+tagId);
+		this.setState({displayList:[...data]});
 	}
 	render(){
 		const { typelist,selectedTag,displayList } = this.state;
@@ -71,8 +77,8 @@ class PlayList extends Component{
 											}
 										>
 											<p><NavLink to={"/playlistdetail/"+item.id}>{item.title}</NavLink></p>
-											<p><NavLink to={"/singerdetail/"+item.id}>{item.singer}</NavLink></p>
-											<p>{item.other}</p>
+											<p><NavLink to={"/userdetail/"+item.user_id}>{item.username}</NavLink></p>
+											<p>播放量：{item.viewcount}</p>
 										</Card>
 									</div>
 								))
